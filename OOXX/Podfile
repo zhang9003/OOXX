@@ -1,0 +1,10 @@
+platform:ios,'8.0'
+
+target ‘OOXX’ do
+  pod 'Masonry'
+  pod ‘AFNetworking’
+  pod 'AgoraRtcEngine_iOS'
+  pod 'SocketRocket'
+  pod 'MBProgressHUD'
+end                           
+

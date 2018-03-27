@@ -1,0 +1,174 @@
+//
+//  PrefixHeader.pch
+//  OOXX
+//
+//  Created by NanZhang on 2017/10/1.
+//  Copyright © 2017年 NanZhang. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
+#pragma mark -- 头文件引入
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
+#import <JavaScriptCore/JavaScriptCore.h>
+//#import "LTUtil.h"//公用工具类
+#import "Masonry.h"//自动布局类
+//#import "UIButton+verticalImageAndTitle.h"//button 图标标题垂直分布类
+//#import "RDVTabBarController.h"
+#import "SocketRocket.h"
+//#import "LTHtmlPath.h"//网页地址
+//#import "SecurityUtil.h"//加密工具
+//#import "LTBaseData.h"
+#import "AFNetworking.h"
+#import "MBProgressHUD.h"
+//#import "UIApplication+currentViewController.h"
+//#import "WeakScriptMessageDelegate.h"//弱引用ScriptMessageDelegate
+//#import "UIView+toast.h"
+#endif
+
+#pragma mark --nslog 重写
+
+//// __OBJC__这个宏,宏内引用的文件确保只被使用Objective-C语言的文件所引用，限定仅仅被OC代码使用
+//#ifdef __OBJC__
+//
+///**
+// *  配置自定义的测试Log
+// */
+//#ifdef DEBUG
+//#define MYLog(...) NSLog(__VA_ARGS__)
+//#else
+//#define MYLog(...)
+//#endif
+//#endif
+
+//重写NSLog,Debug模式下打印日志和当前行数
+#if DEBUG
+
+#define NSLog(format, ...) do {                                             \
+fprintf(stderr, "<%s : %d> %s\n",                                           \
+[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],  \
+__LINE__, __func__);                                                        \
+(NSLog)((format), ##__VA_ARGS__);                                           \
+fprintf(stderr, "-------\n");                                               \
+} while (0)
+#define NSLogRect(rect) NSLog(@"%s x:%.4f, y:%.4f, w:%.4f, h:%.4f", #rect, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+#define NSLogSize(size) NSLog(@"%s w:%.4f, h:%.4f", #size, size.width, size.height)
+#define NSLogPoint(point) NSLog(@"%s x:%.4f, y:%.4f", #point, point.x, point.y)
+#else
+#define NSLog(FORMAT, ...) nil
+#define NSLogRect(rect) nil
+#define NSLogSize(size) nil
+#define NSLogPoint(point) nil
+#endif
+
+#pragma mark ----宏定义
+
+#define WEAKSELF __weak __typeof(&*self)weakSelf = self
+
+#define RGBA(r, g, b, a)    [UIColor colorWithRed:(CGFloat)((r)/255.0) green:(CGFloat)((g)/255.0) blue:(CGFloat)((b)/255.0) alpha:(CGFloat)(a)]
+#define RGB(r, g, b)        RGBA(r, g, b, 1.0)
+
+#define MAIN_S_COLOR [UIColor colorWithRed:0xd4/255.0 green:0x23/255.0 blue:0x7a/255.0 alpha:1.0f]
+#define MAIN_N_COLOR [UIColor colorWithRed:0x8a/255.0 green:0x8a/255.0 blue:0x8a/255.0 alpha:1.0f]
+
+#define iOS7 [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
+#define iOS8 [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0
+#define iOS9 [[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0
+
+
+#define SCREEN_HEIGHT CGRectGetHeight([UIScreen mainScreen].bounds)
+#define SCREEN_WIDTH CGRectGetWidth([UIScreen mainScreen].bounds)
+
+#define IsIPhone5  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define iPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+#define IsIphone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+#define IsPlus  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
+
+//用户引导 key
+#define LT_USERGUIDE_DEF @"LBUserGuide"
+
+#define LT_JS_RELOAD @"Reload"
+
+
+#define GOTOMAINPAGE @"GotoMainPage"
+#define GOTOREGISTERPAGE  @"GotoRegisterPage"
+#define GOTOFORGETPAGE  @"GotoForgetPage"
+#define GOTOCARDPAGE @"GotoCardPage"
+#define GOTOAUTOMATECALLUSERCHATPAGE @"GotoAutoMateCallUserChatPage" //自动匹配
+
+#define GOTOLOGINPAGE @"GotoLoginPage"
+#define GOTOPAGE      @"GotoPage"
+#define GOTOCHARGEPAGE  @"GotoChargePage" //充值
+#define GOTOGIFTPAGE    @"GotoGiftPage"   //礼物
+#define GOTOTRACKPAGE   @"GotoTrackPage"//轨迹
+#define GOTOREPORTPAGE  @"GotoReportPage" //举报
+#define EXITPAGE      @"ExitPage" //退出当前页面
+#define LOADPAGE      @"LoadPage"//刷新界面
+#define GOTOUSERCALLCELLPAGE  @"GotoUserCallCellUserChatPage"//用户拨打主播
+#define SHOWPAGE      @"ShowPage"
+#define SHOWSELF      @"ShowSelf"
+#define SHOWLIKE      @"ShowLike"
+#define SHOWZONE      @"ShowZone"
+#define SHOWMENU      @"ShowMenu"
+#define SHOWFIND      @"ShowFind"
+
+
+#define USERREGISTER     @"XPara_HtmlPath_UserRegister_Sets"
+#define USERFORGET     @"XPara_HtmlPath_UserForget_Sets"
+#define USERMENU     @"XPara_HtmlPath_UserMenu_Sets"
+
+#define USERLIKE     @"XPara_HtmlPath_UserLike_Sets"
+#define USERSELF     @"XPara_HtmlPath_UserSelf_Sets"
+
+
+#define USERTONE       @"XPara_HtmlPath_UserCallCell_CellTone_Sets"
+#define USERCALLCELL_GIFT    @"XPara_HtmlPath_UserCallCell_UserGift_Sets"
+
+#define CELLTONE       @"XPara_HtmlPath_CellCallUser_CellTone_Sets"
+#define CELLCALLUSER_GIFT  @"XPara_HtmlPath_CellCallUser_UserGift_Sets"
+
+#define MATETONE       @"XPara_HtmlPath_AutoMateCall_MateTone_Sets"
+#define MATETIPS       @"XPara_HtmlPath_AutoMateCall_MateTips_Sets"
+#define MATE_GIFT      @"XPara_HtmlPath_AutoMateCall_UserGift_Sets"
+#define GAME_TONE      @"XPara_HtmlPath_GamePlayCall_CellTone_Sets"
+#define GAME_GIFT      @"XPara_HtmlPath_GamePlayCall_UserGift_Sets"
+
+#define MAINPORT     @"XPara_HostPath_MainPort_Sets"
+#define CALLPORT     @"XPara_HostPath_CallPort_Sets"
+#define MAINPUSH     @"XPara_HostPath_MainPush_Sets"
+#define CALLPUSH_USERCALLCELL  @"XPara_HostPath_CallPush_UserCallCell_Sets"
+#define CALLPUSH_CELLCALLUSER  @"XPara_HostPath_CallPush_CellCallUser_Sets"
+#define CALLPUSH_AUTOMATECALL  @"XPara_HostPath_CallPush_AutoMateCall_Sets"
+
+#define USERUNID     @"XPara_UserInfo_UserUnid_Sets"
+#define USERPASS     @"XPara_UserInfo_UserPass_Sets"
+#define USERNAME     @"XPara_UserInfo_UserName_Sets"
+#define USERICON     @"XPara_UserInfo_UserIcon_Sets"
+#define USERCODE     @"XPara_UserInfo_UserCode_Sets"
+#define USERNODE     @"XPara_UserInfo_UserNode_Sets"
+
+#define NFC_NETISCONNECT  @"NETISCONNECT"  //网络状态监听
+
+#define NFC_UserCallCellCellPick @"UserCallCellCellPick"//主播接听
+#define NFC_UserCallCellCellReject @"UserCallCellCellReject"//主播拒绝接听
+#define NFC_UserCallCellCellHang   @"UserCallCellCellHang"//主播挂断
+#define NFC_SignFlagLinkException   @"SignFlagLinkException"//链接异常
+
+#define NFC_CallSystemError         @"CallSystemError"        // 系统错误
+#define NFC_SignException           @"SignException"          //命令超时
+#define NFC_CellCallUserCellCancel  @"CellCallUserCellCancel" //主播取消拨打
+#define NFC_CellCallUserCellHang    @"CellCallUserCellHang"   //主播拨打用户主播挂断
+#define NFC_AutoMateCallUserDial    @"AutoMateCallUserDial"   //自动匹配主播拨打用户
+#define NFC_AutoMateCallCellHang    @"AutoMateCallCellHang"   //自动匹配主播挂断
+
+#define NFC_APPDIDENTERBACKGROUND   @"DidEnterBackGround"     //app进入后台 通知
+#define NFC_APPWILLENTERFOREGROUND  @"appWillEnterForeground" //App从后台进入前台
+
